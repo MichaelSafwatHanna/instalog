@@ -14,7 +14,7 @@ export const SimpleRowContent: React.FC<SimpleRowContentProps> = ({
   onShowDetails,
 }) => {
   return (
-    <div className="bg-white flex flex-row rounded-lg hover:bg-gray-50 w-3/2 p-4">
+    <div className="bg-white flex flex-row hover:bg-gray-50 w-3/2 p-4">
       <div className="flex flex-row items-center basis-5/12">
         <Avatar initials={actor.substring(0, 2)} />
         <div className="pl-3">

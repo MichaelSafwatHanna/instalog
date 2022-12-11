@@ -35,13 +35,13 @@ export const Table: React.FC = () => {
   );
 
   return (
-    <div className="shadow-xl rounded-xl w-3/4">
-      <div className="flex justify-between items-center pb-4 ">
+    <div className="shadow-xl rounded-xl w-3/4 bg-gray-100">
+      <div className="flex justify-between items-center py-3 px-3">
         <label className="sr-only">Search</label>
-        <div className="relative">
+        <div className="relative w-full">
           <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
             <svg
-              className="w-5 h-5 text-gray-500 dark:text-gray-400"
+              className="w-5 h-5 text-gray-500"
               aria-hidden="true"
               fill="currentColor"
               viewBox="0 0 20 20"
@@ -57,19 +57,21 @@ export const Table: React.FC = () => {
           <input
             type="text"
             id="table-search-users"
-            className="block p-2 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="w-full p-2 pl-10 text-sm text-gray-700 bg-gray-100 rounded-lg border border-gray-300 focus:ring-gray-400 focus:border-gray-400 "
             placeholder="Search for users"
             onChange={(e) => setQuery(e.target.value)}
           />
         </div>
       </div>
-      <div className="w-full text-sm text-left bg-grey-500 text-gray-500 flex flex-row font-bold text-md bg-gray-200 uppercase text-gray-600">
+      <div className="w-full text-sm text-left text-gray-500 flex flex-row font-bold text-md bg-gray-100 uppercase text-gray-600">
         <div className="py-4 px-6 basis-5/12">Actor</div>
         <div className="py-4 px-6 basis-3/12">Action</div>
         <div className="py-4 px-6 basis-3/12">Date</div>
       </div>
       {events && events.map((e, i) => <Row key={`event-${i}`} row={e} />)}
-      <button onClick={() => setSize(size + 1)}>Load More</button>
+      <div className="flex flex-row bg-gray-100 justify-center w-full py-3 font-bold text-gray-600">
+        <button onClick={() => setSize(size + 1)}>Load More</button>
+      </div>
     </div>
   );
 };
