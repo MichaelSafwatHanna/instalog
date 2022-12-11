@@ -35,7 +35,7 @@ export const Table: React.FC = () => {
   );
 
   return (
-    <div className="overflow-x-auto relative shadow-xl rounded-xl">
+    <div className="shadow-xl rounded-xl w-3/4">
       <div className="flex justify-between items-center pb-4 ">
         <label className="sr-only">Search</label>
         <div className="relative">
@@ -63,32 +63,12 @@ export const Table: React.FC = () => {
           />
         </div>
       </div>
-      <table className="w-full text-sm text-left bg-grey-500 text-gray-500">
-        <thead className="text-md text-gray-600 uppercase bg-gray-200">
-          <tr>
-            <th scope="col" className="py-4 px-6">
-              Actor
-            </th>
-            <th scope="col" className="py-4 px-6">
-              Action
-            </th>
-            <th scope="col" className="py-4 px-6">
-              Date
-            </th>
-            <th scope="col" className="py-4 px-6"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {events &&
-            events.map((x) => (
-              <Row
-                action={x.name}
-                actor={x.createdBy.email}
-                date={x.createdAt}
-              />
-            ))}
-        </tbody>
-      </table>
+      <div className="w-full text-sm text-left bg-grey-500 text-gray-500 flex flex-row font-bold text-md bg-gray-200 uppercase text-gray-600">
+        <div className="py-4 px-6 basis-5/12">Actor</div>
+        <div className="py-4 px-6 basis-3/12">Action</div>
+        <div className="py-4 px-6 basis-3/12">Date</div>
+      </div>
+      {events && events.map((e, i) => <Row key={`event-${i}`} row={e} />)}
       <button onClick={() => setSize(size + 1)}>Load More</button>
     </div>
   );

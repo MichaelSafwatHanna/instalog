@@ -12,7 +12,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="w-full pt-8 px-16">
+      <main className="flex justify-center pt-8">
         <Table />
       </main>
     </div>
