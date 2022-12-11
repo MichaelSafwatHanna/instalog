@@ -22,7 +22,7 @@ export const Table: React.FC = () => {
         params: {
           page: pageIndex - 1,
           size: 10,
-          query: query,
+          query: query === "" ? undefined : query,
         },
       });
 
@@ -60,7 +60,12 @@ export const Table: React.FC = () => {
             id="table-search-users"
             className="w-full p-2 pl-10 text-sm text-gray-700 bg-gray-100 rounded-lg border border-gray-300 focus:ring-gray-400 focus:border-gray-400 "
             placeholder="Search for users"
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              if (e.target.value !== query) {
+                setQuery(e.target.value);
+                setSize(1);
+              }
+            }}
           />
         </div>
       </div>
