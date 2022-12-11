@@ -20,7 +20,7 @@ export const Row: React.FC<RowProps> = ({ action, actor, date }: RowProps) => {
       </th>
       <td className="py-4 px-6">{action}</td>
       <td className="py-4 px-6">
-        <div className="flex items-center">{date.toLocaleDateString()}</div>
+        <div className="flex items-center">{new Date(date).toLocaleDateString()}</div>
       </td>
       <td>
         <svg

@@ -1,6 +1,39 @@
+import { useState } from "react";
+import useSWRInfinite from "swr/infinite";
+import axios from "axios";
+
 import { Row } from "./Row";
+import { PageKeyConverter } from "./Utils";
+import { Page, EventDto } from "../api/events";
 
 export const Table: React.FC = () => {
+  const [query, setQuery] = useState("");
+  const converter = new PageKeyConverter("events?page=");
+
+  const { data, error, size, setSize } = useSWRInfinite(
+    (pageIndex: number, previousPage: Page<EventDto>) => {
+      // TODO: handle last page
+      return converter.toKey(pageIndex + 1);
+    },
+    async (key) => {
+      const pageIndex = converter.toIndex(key);
+      const response = await axios.get<Page<EventDto>>("api/events", {
+        params: {
+          page: pageIndex - 1,
+          size: 10,
+          query: query,
+        },
+      });
+
+      return response.data;
+    }
+  );
+
+  const events = data?.reduce<EventDto[]>(
+    (acc, page) => acc.concat(page.items),
+    []
+  );
+
   return (
     <div className="overflow-x-auto relative shadow-xl rounded-xl">
       <div className="flex justify-between items-center pb-4 ">
@@ -26,6 +59,7 @@ export const Table: React.FC = () => {
             id="table-search-users"
             className="block p-2 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Search for users"
+            onChange={(e) => setQuery(e.target.value)}
           />
         </div>
       </div>
@@ -45,10 +79,17 @@ export const Table: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          <Row action="Logged in" actor="mis@instatus.com" date={new Date()} />
-          <Row action="Logged in" actor="jer@instatus.com" date={new Date()} />
+          {events &&
+            events.map((x) => (
+              <Row
+                action={x.name}
+                actor={x.createdBy.email}
+                date={x.createdAt}
+              />
+            ))}
         </tbody>
       </table>
+      <button onClick={() => setSize(size + 1)}>Load More</button>
     </div>
   );
 };
