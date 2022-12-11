@@ -5,12 +5,13 @@ import axios from "axios";
 import { Row } from "./Row";
 import { PageKeyConverter } from "./Utils";
 import { Page, EventDto } from "../api/events";
+import { RowSkeleton } from "./RowSkeleton";
 
 export const Table: React.FC = () => {
   const [query, setQuery] = useState("");
   const converter = new PageKeyConverter("events?page=");
 
-  const { data, error, size, setSize } = useSWRInfinite(
+  const { data, size, isLoading, setSize } = useSWRInfinite(
     (pageIndex: number, previousPage: Page<EventDto>) => {
       // TODO: handle last page
       return converter.toKey(pageIndex + 1);
@@ -68,6 +69,8 @@ export const Table: React.FC = () => {
         <div className="py-4 px-6 basis-3/12">Action</div>
         <div className="py-4 px-6 basis-3/12">Date</div>
       </div>
+      {isLoading &&
+        Array.from({ length: 3 }, (_, i) => <RowSkeleton key={i} />)}
       {events && events.map((e, i) => <Row key={`event-${i}`} row={e} />)}
       <div className="flex flex-row bg-gray-100 justify-center w-full py-3 font-bold text-gray-600">
         <button onClick={() => setSize(size + 1)}>Load More</button>
