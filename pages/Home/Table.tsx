@@ -6,10 +6,14 @@ import { Row } from "./Row";
 import { PageKeyConverter } from "./Utils";
 import { Page, EventDto } from "../api/events";
 import { RowSkeleton } from "./RowSkeleton";
+import { useRouter } from "next/router";
 
 export const Table: React.FC = () => {
+  const router = useRouter();
+  const { tenant } = router.query;
+
   const [query, setQuery] = useState("");
-  const converter = new PageKeyConverter("events?page=");
+  const converter = new PageKeyConverter(`events?tenant=${tenant}page=`);
 
   const { data, size, isLoading, setSize } = useSWRInfinite(
     (pageIndex: number, previousPage: Page<EventDto>) => {
@@ -23,6 +27,7 @@ export const Table: React.FC = () => {
           page: pageIndex - 1,
           size: 10,
           query: query === "" ? undefined : query,
+          tenant,
         },
       });
 

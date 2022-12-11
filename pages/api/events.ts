@@ -44,7 +44,7 @@ const getAll = async (
   req: NextApiRequest,
   res: NextApiResponse<Page<EventDto>>
 ) => {
-  const { page: pageStr, size: sizeStr, query } = req.query;
+  const { page: pageStr, size: sizeStr, query, tenant } = req.query;
   const page = parseInt(pageStr as string);
   const size = parseInt(sizeStr as string);
 
@@ -58,6 +58,11 @@ const getAll = async (
     where: {
       name: {
         contains: query === "" ? undefined : (query as string),
+      },
+      tenant: {
+        name: {
+          equals: tenant as string,
+        },
       },
     },
   });
