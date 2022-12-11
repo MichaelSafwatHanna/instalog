@@ -1,0 +1,36 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model Tenant {
+    id     String  @id @default(uuid())
+    name   String  @unique
+    actors Actor[]
+    events Event[]
+}
+
+model Actor {
+    id       String  @id @default(uuid())
+    email    String
+    name     String
+    events   Event[]
+    tenant   Tenant  @relation(fields: [tenantId], references: [id])
+    tenantId String
+}
+
+model Event {
+    id          String   @id @default(uuid())
+    name        String
+    description String
+    location    String
+    createdBy   Actor    @relation(fields: [actorId], references: [id])
+    actorId     String
+    tenant      Tenant   @relation(fields: [tenantId], references: [id])
+    tenantId    String
+    createdAt   DateTime @default(now())
+}
