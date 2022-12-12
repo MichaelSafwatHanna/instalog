@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const DEFAULT_EVENTS = ["mousedown", "touchstart"];
 
@@ -25,4 +25,22 @@ export function useClickOutside<T extends HTMLElement = any>(
   }, [ref, handler]);
 
   return ref;
+}
+
+export function useDebouncedState(defaultValue: string, wait: number) {
+  const [value, setValue] = useState(defaultValue);
+  const timeoutRef = useRef<number | undefined>(undefined);
+
+  const clearTimeout = () => window.clearTimeout(timeoutRef.current);
+
+  useEffect(() => clearTimeout, []);
+
+  const debouncedSetValue = (newValue: string) => {
+    clearTimeout();
+    timeoutRef.current = window.setTimeout(() => {
+      setValue(newValue);
+    }, wait);
+  };
+
+  return [value, debouncedSetValue] as const;
 }

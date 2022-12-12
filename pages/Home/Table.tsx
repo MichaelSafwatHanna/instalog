@@ -1,19 +1,27 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import useSWRInfinite from "swr/infinite";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 import { Row } from "./Row";
 import { PageKeyConverter } from "./Utils";
 import { Page, EventDto } from "../api/events";
 import { RowSkeleton } from "./RowSkeleton";
-import { useRouter } from "next/router";
+import { useDebouncedState } from "../../lib/hooks";
 
 export const Table: React.FC = () => {
   const router = useRouter();
   const { tenant } = router.query;
 
-  const [query, setQuery] = useState("");
-  const converter = new PageKeyConverter(`events?tenant=${tenant}page=`);
+  const [query, setQuery] = useDebouncedState("", 500);
+
+  useEffect(() => {
+    setSize(1);
+  }, [query]);
+
+  const converter = new PageKeyConverter(
+    `events?tenant=${tenant}&query=${query}&page=`
+  );
 
   const { data, size, isLoading, setSize } = useSWRInfinite(
     (pageIndex: number, previousPage: Page<EventDto>) => {
@@ -68,7 +76,6 @@ export const Table: React.FC = () => {
             onChange={(e) => {
               if (e.target.value !== query) {
                 setQuery(e.target.value);
-                setSize(1);
               }
             }}
           />
