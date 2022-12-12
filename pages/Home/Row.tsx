@@ -16,7 +16,7 @@ export const Row: React.FC<RowProps> = ({ row }: RowProps) => {
   return showDetails ? (
     <div
       ref={clickOutsideRef}
-      className="bg-white rounded-lg hover:bg-gray-50 w-3/2 ring-offset-2 ring-2 scale-110 ease-out duration-500 shadow-xl"
+      className="bg-white rounded-lg hover:bg-gray-50 w-3/2 ring-offset-2 ring-2 scale-105 ease-out duration-500 shadow-xl"
     >
       <DetailedRowContent row={row} />
     </div>

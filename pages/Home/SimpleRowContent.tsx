@@ -30,9 +30,9 @@ export const SimpleRowContent: React.FC<SimpleRowContentProps> = ({
           minute: "2-digit",
         })}
       </div>
-      <div className="basis-1/12 justify-self-end" onClick={onShowDetails}>
+      <div className="flex basis-1/12 items-center justify-end mr-8" onClick={onShowDetails}>
         <svg
-          className="w-10 h-10 text-gray-200"
+          className="w-5 h-5 text-gray-200"
           aria-hidden="true"
           fill="currentColor"
           viewBox="0 0 12 12"
