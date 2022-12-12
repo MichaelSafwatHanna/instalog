@@ -10,6 +10,7 @@ import { RowSkeleton } from "./RowSkeleton";
 import { useDebouncedState } from "../../lib/hooks";
 
 export const Table: React.FC = () => {
+  const PAGE_SIZE = 5;
   const router = useRouter();
   const { tenant } = router.query;
 
@@ -25,7 +26,10 @@ export const Table: React.FC = () => {
 
   const { data, size, isLoading, setSize } = useSWRInfinite(
     (pageIndex: number, previousPage: Page<EventDto>) => {
-      // TODO: handle last page
+      if (previousPage && pageIndex * PAGE_SIZE >= previousPage.total) {
+        return null;
+      }
+
       return converter.toKey(pageIndex + 1);
     },
     async (key) => {
@@ -33,20 +37,23 @@ export const Table: React.FC = () => {
       const response = await axios.get<Page<EventDto>>("api/events", {
         params: {
           page: pageIndex - 1,
-          size: 10,
+          size: PAGE_SIZE,
           query: query === "" ? undefined : query,
           tenant,
         },
       });
 
       return response.data;
-    }
+    },
+    { revalidateFirstPage: false }
   );
 
   const events = data?.reduce<EventDto[]>(
     (acc, page) => acc.concat(page.items),
     []
   );
+
+  const hasMoreData = data && events && data[0].total > events.length;
 
   return (
     <div className="shadow-xl rounded-xl w-3/4 bg-gray-100">
@@ -71,7 +78,7 @@ export const Table: React.FC = () => {
           <input
             type="text"
             id="table-search-users"
-            className="w-full p-2 pl-10 text-sm text-gray-700 bg-gray-100 rounded-lg border border-gray-300 focus:ring-gray-400 focus:border-gray-400 "
+            className="w-full p-2 pl-10 text-sm text-gray-700 bg-gray-100 rounded-lg border border-gray-300"
             placeholder="Search for users"
             onChange={(e) => {
               if (e.target.value !== query) {
@@ -89,8 +96,8 @@ export const Table: React.FC = () => {
       {isLoading &&
         Array.from({ length: 3 }, (_, i) => <RowSkeleton key={i} />)}
       {events && events.map((e, i) => <Row key={`event-${i}`} row={e} />)}
-      <div className="flex flex-row bg-gray-100 justify-center w-full py-3 font-bold text-gray-600">
-        <button onClick={() => setSize(size + 1)}>Load More</button>
+      <div className={`flex flex-row bg-gray-100 justify-center w-full py-3 font-bold ${hasMoreData? 'text-gray-600' : 'text-gray-300'}`}>
+        <button onClick={() => setSize(size + 1)} disabled={!hasMoreData}>Load More</button>
       </div>
     </div>
   );
