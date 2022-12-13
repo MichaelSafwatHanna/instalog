@@ -48,3 +48,5 @@ export const SimpleRowContent: React.FC<SimpleRowContentProps> = ({
     </div>
   );
 };
+
+export default SimpleRowContent;

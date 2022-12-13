@@ -1,4 +1,4 @@
-import { EventDto } from "../api/events";
+import { EventDto } from "../pages/api/events";
 
 type DetailedRowContentProps = {
   row: EventDto;
@@ -79,9 +79,7 @@ export const DetailedRowContent: React.FC<DetailedRowContentProps> = ({
           <tbody>
             <tr>
               <td className="uppercase text-gray-600 pr-8">Location</td>
-              <td>
-                {row.location}
-              </td>
+              <td>{row.location}</td>
             </tr>
           </tbody>
         </table>
@@ -94,3 +92,5 @@ export const DetailedRowContent: React.FC<DetailedRowContentProps> = ({
     </div>
   );
 };
+
+export default DetailedRowContent;

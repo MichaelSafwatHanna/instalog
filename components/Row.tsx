@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import { DetailedRowContent } from "./DetailedRowContent";
 import { SimpleRowContent } from "./SimpleRowContent";
-import { useClickOutside } from "../../lib/hooks";
-import { EventDto } from "../api/events";
+import { useClickOutside } from "../lib/hooks";
+import { EventDto } from "../pages/api/events";
 
 export type RowProps = {
   row: EventDto;
@@ -31,3 +31,5 @@ export const Row: React.FC<RowProps> = ({ row }: RowProps) => {
     </div>
   );
 };
+
+export default Row;

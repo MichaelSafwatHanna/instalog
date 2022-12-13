@@ -1,10 +1,9 @@
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
-import { Table } from "./Home/Table";
+import { Table } from "../components/Table";
 
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>InstaLog</title>
         <meta name="description" content="Event logging as a service" />

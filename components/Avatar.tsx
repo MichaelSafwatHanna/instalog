@@ -9,3 +9,5 @@ export const Avatar: React.FC<AvatarProps> = ({ initials }) => {
     </div>
   );
 };
+
+export default Avatar;

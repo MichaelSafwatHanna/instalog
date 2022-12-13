@@ -16,3 +16,5 @@ export const RowSkeleton: React.FC = () => {
     </div>
   );
 };
+
+export default RowSkeleton;

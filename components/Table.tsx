@@ -4,10 +4,10 @@ import axios from "axios";
 import { useRouter } from "next/router";
 
 import { Row } from "./Row";
-import { PageKeyConverter } from "./Utils";
-import { Page, EventDto } from "../api/events";
+import { PageKeyConverter } from "../lib/Utils";
+import { Page, EventDto } from "../pages/api/events";
 import { RowSkeleton } from "./RowSkeleton";
-import { useDebouncedState } from "../../lib/hooks";
+import { useDebouncedState } from "../lib/hooks";
 
 export const Table: React.FC = () => {
   const PAGE_SIZE = 5;
@@ -96,9 +96,17 @@ export const Table: React.FC = () => {
       {isLoading &&
         Array.from({ length: 3 }, (_, i) => <RowSkeleton key={i} />)}
       {events && events.map((e, i) => <Row key={`event-${i}`} row={e} />)}
-      <div className={`flex flex-row bg-gray-100 justify-center w-full py-3 font-bold ${hasMoreData? 'text-gray-600' : 'text-gray-300'}`}>
-        <button onClick={() => setSize(size + 1)} disabled={!hasMoreData}>Load More</button>
+      <div
+        className={`flex flex-row bg-gray-100 justify-center w-full py-3 font-bold ${
+          hasMoreData ? "text-gray-600" : "text-gray-300"
+        }`}
+      >
+        <button onClick={() => setSize(size + 1)} disabled={!hasMoreData}>
+          Load More
+        </button>
       </div>
     </div>
   );
 };
+
+export default Table;
