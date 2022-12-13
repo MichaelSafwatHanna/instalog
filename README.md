@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# InstaLog
 
 ## Getting Started
 
@@ -10,25 +10,52 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000/instatus](http://localhost:3000/instatus) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Problem statement
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Our customers want to see who’s doing what in their team.
+Who logged in? Who created an incident? Who deleted that teammate?!
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+We need to develop an activity log tab so that IT admins can check their team’s activity.
 
-## Learn More
+We need to make it a general solution that can be used by any other product (not only Instatus)
+Maybe it’s the start of a new product: instalog !
 
-To learn more about Next.js, take a look at the following resources:
+Events contain information relevant to actions taken by users in the application. 
+For example, when a user logs in, we use the system to create a new login_succeeded event.
+We can add information about the actor, action, target, date, etc.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Backend endpoints
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+* POST /events
+Feel free to set body parameters you find appropriate
 
-## Deploy on Vercel
+* GET /events
+Feel free to set query parameters you find appropriate
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Required functionality
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+* Pagination
+* Search
+* Filters based on actor_id, target_id, action_id and/or name
+
+### Frontend functionality
+
+* Listing
+* Details
+* Load more
+* Search
+
+## Stack
+
+* API
+  * Typescript
+  * Prisma
+  * Next.js
+  * MySQL
+
+* Frontend
+  * Next.js
+  * TailwindCSS
+  * SWR
